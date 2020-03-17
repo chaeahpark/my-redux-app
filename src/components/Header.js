@@ -3,7 +3,8 @@ import GoogleAuth from './GoogleAuth';
 
 function Header() {
   return (
-    <div>
+    <div className="ui menu">
+      My Posts
       <GoogleAuth />
     </div>
   );

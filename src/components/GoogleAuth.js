@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { signIn, signOut } from '../redux/action';
 
 // Q) What is the difference between arrow function and function declaration
+
 class GoogleAuth extends Component {
   componentDidMount() {
     window.gapi.load('client: auth2', () => {
