@@ -29,6 +29,7 @@ class PostList extends Component {
         <div className="ui segment">
           <div className="ui header">{post.title}</div>
           <div className="ui meta">{post.body}</div>
+          {this.renderButton(this.props.userId, post)}
         </div>
       );
     });
@@ -48,7 +49,8 @@ class PostList extends Component {
 
 const mapStateToProps = state => {
   return {
-    posts: state.posts
+    posts: state.posts,
+    userId: state.auth.userId
   };
 };
 
