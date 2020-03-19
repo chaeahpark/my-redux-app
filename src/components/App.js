@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import history from '../history';
 
 import Header from './Header';
 import AddPost from './posts/AddPost';
@@ -13,7 +14,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <BrowserRouter>
+        <Router history={history}>
           <Header />
           <div>
             <Switch>
@@ -23,7 +24,7 @@ export class App extends Component {
               <Route path="/post/:id" exact component={PostDetail} />
             </Switch>
           </div>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }

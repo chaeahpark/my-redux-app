@@ -9,6 +9,19 @@ class PostList extends Component {
     this.props.fetchPosts();
   }
 
+  renderButton(userId, post) {
+    if (userId === post.userId) {
+      return (
+        <div>
+          <button className="ui red button">Delete</button>
+          <Link to={`/post/edit/${post.id}`}>
+            <button className="ui primary button">Edit</button>
+          </Link>
+        </div>
+      );
+    }
+  }
+
   renderList() {
     const posts = this.props.posts;
     return posts.map(post => {

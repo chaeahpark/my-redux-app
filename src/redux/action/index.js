@@ -1,5 +1,6 @@
 import { SIGN_IN, SIGN_OUT, FETCH_POSTS, ADD_POST } from '../types';
 import { jsonplaceholder } from '../../apis/jsonplaceholder';
+import history from '../../history';
 
 export const signIn = userId => {
   return {
@@ -14,10 +15,16 @@ export const signOut = () => {
   };
 };
 
-export const fetchPosts = () => async dispatch => {
-  const response = await jsonplaceholder.get('/posts');
+// export const fetchPosts = () => async dispatch => {
+//   const response = await jsonplaceholder.get('/posts');
 
-  dispatch({ type: FETCH_POSTS, payload: response.data });
+//   dispatch({ type: FETCH_POSTS, payload: response.data });
+// };
+
+export const fetchPosts = () => {
+  return {
+    type: FETCH_POSTS
+  };
 };
 
 export const addPost = post => {

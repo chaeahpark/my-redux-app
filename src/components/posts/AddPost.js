@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { addPost } from '../../redux/action';
+import shortid from 'shortid';
+import history from '../../history';
 
 class AddPost extends Component {
-  renderError({ touched, error }) {
+  renderError = ({ touched, error }) => {
     if (touched && error) {
       return (
         <div className="ui error message">
@@ -12,21 +14,24 @@ class AddPost extends Component {
         </div>
       );
     }
-  }
+  };
 
-  renderTitleInput = ({ label, input: { onChange }, meta }) => {
+  renderTitleInput = ({ label, input, meta }) => {
+    const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
     return (
-      <div>
+      <div className={className}>
         <label htmlFor="title">{label}</label>
-        <input className="ui input" onChange={onChange}></input>
+        <input className="ui input" onChange={input.onChange}></input>
         {this.renderError(meta)}
       </div>
     );
   };
 
   renderBodyInput = ({ input: { onChange }, label, meta }) => {
+    const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+
     return (
-      <div>
+      <div className={className}>
         <label htmlFor="body">{label}</label>
         <textarea rows="3" onChange={onChange}></textarea>
         {this.renderError(meta)}
@@ -35,7 +40,15 @@ class AddPost extends Component {
   };
 
   onSubmit = formValues => {
-    this.props.addPost(formValues);
+    let newPost = {};
+    newPost = {
+      id: shortid.generate(),
+      userId: this.props.userId,
+      ...formValues
+    };
+
+    this.props.addPost(newPost);
+    history.push('/');
   };
 
   render() {
@@ -68,7 +81,7 @@ class AddPost extends Component {
 // The validate function updates error property
 // inside of props which are based from Field
 const validate = formValues => {
-  const errors = {};
+  let errors = {};
   if (!formValues.title) {
     errors.title = 'You must enter a title';
   }
@@ -80,7 +93,16 @@ const validate = formValues => {
 
 const formWrapped = reduxForm({
   form: 'postAdd',
-  validate
+  destroyOnUnmount: false
+  // validate
 })(AddPost);
 
-export default connect(null, { addPost })(formWrapped);
+const mapStateToProps = state => {
+  if (state.auth.userId) {
+    return { userId: state.auth.userId };
+  } else {
+    return { userId: null };
+  }
+};
+
+export default connect(mapStateToProps, { addPost })(formWrapped);
